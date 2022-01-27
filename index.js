@@ -30,7 +30,7 @@ app.get("/health", async (req, res) => {
   });
 
 
-app.get("/profile", async (req, res) => {
+app.post("/profile", async (req, res) => {
     try {
       const { forceNewToken = false } = req.body
       const user = await userService.getToken(forceNewToken);
