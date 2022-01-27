@@ -21,6 +21,15 @@ app.post("/signin", async (req, res) => {
   }
 });
 
+app.get("/health", async (req, res) => {
+    try {
+      res.json({ health: true });
+    } catch (err) {
+      res.status(502).json({ error: "error"});
+    }
+  });
+
+
 app.get("/profile", async (req, res) => {
     try {
       const user = await userService.getToken();
