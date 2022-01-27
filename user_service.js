@@ -13,6 +13,6 @@ exports.authenticate = async (email, password) => {
   return userCredential.user.getIdToken();
 }
 
-exports.getToken = async () => {
-  return fb.auth().currentUser.getIdToken()
+exports.getToken = async (forceNewToken = false) => {
+  return fb.auth().currentUser.getIdToken(forceNewToken)
 }

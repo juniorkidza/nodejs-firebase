@@ -32,7 +32,8 @@ app.get("/health", async (req, res) => {
 
 app.get("/profile", async (req, res) => {
     try {
-      const user = await userService.getToken();
+      const { forceNewToken = false } = req.body
+      const user = await userService.getToken(forceNewToken);
       res.json(user);
     } catch (err) {
       res.status(401).json({ error: err.message });
