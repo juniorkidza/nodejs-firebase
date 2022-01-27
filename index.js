@@ -8,15 +8,27 @@ const userService = require("./user_service");
 
 app.post("/signin", async (req, res) => {
   const { email, password } = req.body;
+  // check email
+  const emailRegex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/
+  const isValidEmail = emailRegex.test(email)
+
+  if (!isValidEmail) return res.status(403).json({ error: "Email is invalid format."})
   try {
-    console.log(req.body)
     const user = await userService.authenticate(email, password);
-    res.json(user);
+    return res.json(user);
   } catch (err) {
-      console.log(err.message)
-    res.status(401).json({ error: err.message });
+    return res.status(401).json({ error: err.message });
   }
 });
+
+app.get("/profile", async (req, res) => {
+    try {
+      const user = await userService.getToken();
+      res.json(user);
+    } catch (err) {
+      res.status(401).json({ error: err.message });
+    }
+  });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server started at port ${port}`));
